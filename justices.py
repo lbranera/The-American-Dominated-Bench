@@ -2,16 +2,16 @@ import pandas as pd
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 
-def get_justices_precw(data):
+def get_justices_precw():
 	justices = []
 	data = pd.read_csv('justices.csv')
 	for row in data.itertuples():
-	if(row[5]!="Incumbent"):
-		american_period_end = datetime(1936, 2, 1)
-		justice_start = datetime.strptime(row[4], '%B %d, %Y')
+		if(row[5]!="Incumbent"):
+			american_period_end = datetime(1936, 2, 1)
+			justice_start = datetime.strptime(row[4], '%B %d, %Y')
 
-		if(justice_start<=american_period_end):
-			justices.append(row)
+			if(justice_start<=american_period_end):
+				justices.append(row)
 
 	return justices
 
