@@ -78,24 +78,24 @@ def count_filipinos(bench):
 	return filipinos
 
 
-justices = get_justices_precw() #SC Justices who served during the pre-commonwealth period.
+justices = get_justices_precw() 
 
-print("FIRST PART:")
+print("FIRST PART: The Justices during the Pre-Commonwealth Period")
 justices = justices_data(justices)
 
 americans = filipinos = 0
-for justice in justices:
-	print(justice)
-	if(justice["nationality"]=="Filipino"):
+for i in range(len(justices)):
+	print("\t"+justices[i]["name"]+", "+justices[i]["nationality"])
+	if(justices[i]["nationality"]=="Filipino"):
 		filipinos+=1
 	else:
 		americans+=1
 
-print("No. of Filipinos:",filipinos)
-print("No. of Americans:",americans)
+print("\tNo. of Filipinos:",filipinos)
+print("\tNo. of Americans:",americans)
 
 
-print("SECOND PART:")
+print("\n\nSECOND PART: The Set of Unique Benches from June 15, 1901 to February 2, 1936")
 dates = get_dates(justices)
 dates = list(set(dates))
 dates.sort()
@@ -111,17 +111,19 @@ str_dates = [date.strftime('%B %d, %Y') for date in dates]
 filipinos = []
 americans = []
 for i in range(len(benches)):
-	print("Bench #"+str(i), str_dates[i])
+	print("Bench #"+str(i+1), str_dates[i])
 	for justice in benches[i]:
-		print("\t",justice)
+		print("\t"+justice["name"]+", "+justice["nationality"])
 
 	cf = count_filipinos(benches[i])
 	ca = len(benches[i]) - cf
 	filipinos.append(cf)
 	americans.append(ca)
-	print("\t No. of Filipinos:", cf)
-	print("\t No. of Americans:", ca)
+	print("\tNo. of Filipinos:", cf)
+	print("\tNo. of Americans:", ca)
 
+print("\n\nAverage No. of Filipino justices:", (sum(filipinos)/len(filipinos)))
+print("Average No. of American justices:", (sum(americans)/len(americans)))
 
 plt.title('Philippine Supreme Court Bench from June 15, 1901 to February 2, 1936 by Nationality')
 plt.plot(str_dates, filipinos, marker='o', label = "Filipinos")
@@ -132,3 +134,5 @@ plt.legend()
 plt.xticks(rotation=90)
 plt.tight_layout()
 plt.show()
+
+
