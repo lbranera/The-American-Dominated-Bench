@@ -2,6 +2,19 @@ import pandas as pd
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 
+def get_justices_precw(data):
+	justices = []
+	data = pd.read_csv('justices.csv')
+	for row in data.itertuples():
+	if(row[5]!="Incumbent"):
+		american_period_end = datetime(1936, 2, 1)
+		justice_start = datetime.strptime(row[4], '%B %d, %Y')
+
+		if(justice_start<=american_period_end):
+			justices.append(row)
+
+	return justices
+
 def in_justices_data(roll_no, justices):
 	for justice in justices:
 		if(roll_no == justice["roll_no"]):
@@ -64,16 +77,8 @@ def count_filipinos(bench):
 
 	return filipinos
 
-data = pd.read_csv('justices.csv')
 
-justices = [] #SC Justices who served during the pre-commonwealth period.
-for row in data.itertuples():
-	if(row[5]!="Incumbent"):
-		american_period_end = datetime(1936, 2, 1)
-		justice_start = datetime.strptime(row[4], '%B %d, %Y')
-
-		if(justice_start<=american_period_end):
-			justices.append(row)
+justices = get_justices_precw() #SC Justices who served during the pre-commonwealth period.
 
 print("FIRST PART:")
 justices = justices_data(justices)
